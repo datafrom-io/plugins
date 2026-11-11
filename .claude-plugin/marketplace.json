@@ -1,0 +1,15 @@
+{
+  "name": "datafrom",
+  "description": "Claude Code plugins from datafrom-io.",
+  "owner": {
+    "name": "datafrom-io",
+    "url": "https://github.com/datafrom-io"
+  },
+  "plugins": [
+    {
+      "name": "video-learning-tutor",
+      "source": "./plugins/video-learning-tutor",
+      "description": "Turns a YouTube video into a guided learning session: fetches the transcript through the bundled YouTube connector and tutors you through it with grounded, cited explanations."
+    }
+  ]
+}

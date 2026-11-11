@@ -1,0 +1,29 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - '*--v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build and verify skill zip
+        run: .github/scripts/build-skill-zip.sh "$GITHUB_REF_NAME" dist
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          PLUGIN="${GITHUB_REF_NAME%%--v*}"
+          VERSION="${GITHUB_REF_NAME##*--v}"
+          gh release create "$GITHUB_REF_NAME" "dist/${PLUGIN}.zip" \
+            --verify-tag \
+            --title "${PLUGIN} ${VERSION}" \
+            --notes "Skill package for claude.ai: download ${PLUGIN}.zip and upload it in Settings, Skills. Claude Code users install the plugin from the marketplace instead: /plugin install ${PLUGIN}@datafrom"
