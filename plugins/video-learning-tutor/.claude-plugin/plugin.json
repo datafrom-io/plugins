@@ -1,7 +1,7 @@
 {
   "name": "video-learning-tutor",
-  "version": "1.0.0",
-  "description": "Turns a YouTube video into a guided learning session: fetches the transcript through the bundled YouTube connector and tutors you through it with grounded, cited explanations.",
+  "version": "2.0.0",
+  "description": "Turns a YouTube video into a guided learning session: fetches the transcript through the datafrom YouTube connector, installed automatically as a dependency, and tutors you through it with grounded, cited explanations.",
   "author": {
     "name": "datafrom-io",
     "url": "https://github.com/datafrom-io"
@@ -10,10 +10,7 @@
   "repository": "https://github.com/datafrom-io/plugins",
   "license": "MIT",
   "keywords": ["tutor", "learning", "youtube", "transcript", "education"],
-  "mcpServers": {
-    "datafrom-youtube": {
-      "type": "http",
-      "url": "https://youtube.datafrom.io/mcp"
-    }
-  }
+  "dependencies": [
+    { "name": "datafrom", "version": "^1.0.0" }
+  ]
 }
