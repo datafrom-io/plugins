@@ -1,0 +1,19 @@
+{
+  "name": "datafrom",
+  "version": "1.0.0",
+  "description": "datafrom.io connectors for Claude Code. Adds the YouTube MCP server for video metadata and timestamped transcripts; sign in with OAuth in /mcp.",
+  "author": {
+    "name": "datafrom-io",
+    "url": "https://github.com/datafrom-io"
+  },
+  "homepage": "https://github.com/datafrom-io/plugins",
+  "repository": "https://github.com/datafrom-io/plugins",
+  "license": "MIT",
+  "keywords": ["tutor", "learning", "youtube", "transcript", "education"],
+  "mcpServers": {
+    "youtube": {
+      "type": "http",
+      "url": "https://youtube.datafrom.io/mcp"
+    }
+  }
+}

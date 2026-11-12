@@ -9,7 +9,12 @@
     {
       "name": "video-learning-tutor",
       "source": "./plugins/video-learning-tutor",
-      "description": "Turns a YouTube video into a guided learning session: fetches the transcript through the bundled YouTube connector and tutors you through it with grounded, cited explanations."
+      "description": "Turns a YouTube video into a guided learning session: fetches the transcript through the datafrom YouTube connector, installed automatically as a dependency, and tutors you through it with grounded, cited explanations."
+    },
+    {
+      "name": "datafrom",
+      "source": "./plugins/datafrom",
+      "description": "datafrom.io connectors for Claude Code. Adds the YouTube MCP server for video metadata and timestamped transcripts; sign in with OAuth in /mcp."
     }
   ]
 }

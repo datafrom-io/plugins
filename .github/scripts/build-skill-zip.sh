@@ -2,6 +2,8 @@
 # Проверяет релизный тег <plugin>--v<version> и собирает <plugin>.zip для claude.ai.
 # Использование: build-skill-zip.sh <тег> [папка вывода]
 # В архиве ровно один файл: <plugin>/SKILL.md, побайтно равный файлу в тегe.
+# Если у плагина нет папки skills/ (например, плагин-коннектор), сборка пропускается:
+# скрипт пишет has_skill=false в $GITHUB_OUTPUT (если задан) и выходит с кодом 0.
 set -euo pipefail
 
 TAG="${1:?usage: build-skill-zip.sh <tag> [out-dir]}"
@@ -16,18 +18,33 @@ VERSION="${TAG##*--v}"
 DIR="plugins/${PLUGIN}"
 SKILL="${DIR}/skills/${PLUGIN}/SKILL.md"
 
-[ -f "$SKILL" ] || { echo "ERROR: нет файла $SKILL" >&2; exit 1; }
 [ -f "${DIR}/.claude-plugin/plugin.json" ] || { echo "ERROR: нет ${DIR}/.claude-plugin/plugin.json" >&2; exit 1; }
 
-python3 -I - "$DIR/.claude-plugin/plugin.json" "$PLUGIN" "$VERSION" "$SKILL" <<'PY'
-import json, re, sys
-manifest, plugin, version, skill = sys.argv[1:5]
+python3 -I - "$DIR/.claude-plugin/plugin.json" "$PLUGIN" "$VERSION" <<'PY'
+import json, sys
+manifest, plugin, version = sys.argv[1:4]
 m = json.load(open(manifest, encoding="utf-8"))
 if m.get("name") != plugin:
     sys.exit(f"ERROR: name в plugin.json ({m.get('name')!r}) не равен {plugin!r}")
 if m.get("version") != version:
     sys.exit(f"ERROR: version в plugin.json ({m.get('version')!r}) не равна версии тега {version!r}")
-lines = open(skill, encoding="utf-8").read().splitlines()
+PY
+
+set_output() {
+  if [ -n "${GITHUB_OUTPUT:-}" ]; then echo "$1" >> "$GITHUB_OUTPUT"; fi
+}
+
+if [ ! -d "${DIR}/skills" ]; then
+  echo "SKIP: у ${PLUGIN} нет папки skills/, zip не собирается"
+  set_output "has_skill=false"
+  exit 0
+fi
+
+[ -f "$SKILL" ] || { echo "ERROR: нет файла $SKILL" >&2; exit 1; }
+
+python3 -I - "$SKILL" <<'PY'
+import re, sys
+lines = open(sys.argv[1], encoding="utf-8").read().splitlines()
 if not lines or lines[0].strip() != "---":
     sys.exit("ERROR: SKILL.md без frontmatter")
 end = next((i for i in range(1, len(lines)) if lines[i].strip() == "---"), None)
@@ -58,3 +75,4 @@ LISTED="$(unzip -Z1 "$ZIP" | grep -v '/$' || true)"
 [ "$LISTED" = "${PLUGIN}/SKILL.md" ] || { echo "ERROR: неожиданный состав архива: $LISTED" >&2; exit 1; }
 unzip -p "$ZIP" "${PLUGIN}/SKILL.md" | cmp -s - "$SKILL" || { echo "ERROR: SKILL.md в архиве отличается от исходного" >&2; exit 1; }
 echo "OK: $ZIP"
+set_output "has_skill=true"

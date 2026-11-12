@@ -15,9 +15,11 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build and verify skill zip
+        id: build
         run: .github/scripts/build-skill-zip.sh "$GITHUB_REF_NAME" dist
 
       - name: Create GitHub Release
+        if: steps.build.outputs.has_skill == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
