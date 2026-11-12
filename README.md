@@ -36,8 +36,9 @@ If you already added the same server yourself (for example with an API key, in u
 
 In 1.0.0 the connector was bundled in the tutor itself, so `/mcp` listed it under the tutor's own name (`plugin:video-learning-tutor:…`). From 2.0.0 it lives in `datafrom` and is called `plugin:datafrom:youtube`. What this means for you:
 
+- Restart Claude Code after `/plugin marketplace update datafrom` and the plugin update: `datafrom` is installed as a dependency on that restart, not by the update itself.
+- If `/mcp` still shows no `plugin:datafrom:youtube` after the restart, run `/plugin install datafrom@datafrom`.
 - Sign in again: run `/mcp`, pick `plugin:datafrom:youtube` and complete OAuth. The old sign-in does not carry over.
-- If, after `/plugin marketplace update datafrom` and the plugin update, `/mcp` shows no `plugin:datafrom:youtube`, run `/plugin install datafrom@datafrom`.
 - The tools are now named `mcp__plugin_datafrom_youtube__*`. Permission rules and hooks written for the old tool names (prefix `mcp__plugin_video-learning-tutor_`) no longer match; update them.
 
 ### Uninstalling
