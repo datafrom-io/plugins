@@ -7,6 +7,7 @@ Claude Code plugins from [datafrom-io](https://github.com/datafrom-io). This rep
 | Plugin | What it does |
 | --- | --- |
 | `video-learning-tutor` | Turns a YouTube video into a guided learning session. Fetches the timestamped transcript through the datafrom YouTube connector, then tutors you with questions and hints instead of ready answers. Installs `datafrom` automatically. |
+| `video-chapters` | Builds a table of contents for a YouTube video: chapters with timestamps and links to each moment, from the author's chapters and the transcript, as a list, with one-line summaries, or as plain timestamps for a comment. Installs `datafrom` automatically. |
 | `datafrom` | The datafrom.io connectors for Claude Code. Today: the YouTube MCP server (`https://youtube.datafrom.io/mcp`). It has no skills of its own; other plugins depend on it. |
 
 ## Install in Claude Code
@@ -14,9 +15,10 @@ Claude Code plugins from [datafrom-io](https://github.com/datafrom-io). This rep
 ```
 /plugin marketplace add datafrom-io/plugins
 /plugin install video-learning-tutor@datafrom
+/plugin install video-chapters@datafrom
 ```
 
-Installing `video-learning-tutor` also installs and enables `datafrom`, the plugin that carries the YouTube connector. You do not need to install it separately.
+Installing `video-learning-tutor` or `video-chapters` also installs and enables `datafrom`, the plugin that carries the YouTube connector. You do not need to install it separately.
 
 Update later with `/plugin marketplace update datafrom`.
 
