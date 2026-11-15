@@ -1,0 +1,16 @@
+{
+  "name": "video-chapters",
+  "version": "1.0.0",
+  "description": "Builds a table of contents for a YouTube video: chapters with timestamps and links to each moment, from the author's chapters and the transcript fetched through the datafrom YouTube connector, installed automatically as a dependency.",
+  "author": {
+    "name": "datafrom-io",
+    "url": "https://github.com/datafrom-io"
+  },
+  "homepage": "https://github.com/datafrom-io/plugins",
+  "repository": "https://github.com/datafrom-io/plugins",
+  "license": "MIT",
+  "keywords": ["chapters", "timestamps", "table-of-contents", "youtube", "transcript"],
+  "dependencies": [
+    { "name": "datafrom", "version": "^1.0.0" }
+  ]
+}
